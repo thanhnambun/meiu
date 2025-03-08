@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mẹ yêu ơi, chúc mẹ 8/3 vui vẻ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+      body {
+        background: #fce4ec;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      #loading-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      #loading-bar {
+        width: 300px;
+        height: 20px;
+        background-color: #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+      }
+      #progress {
+        height: 100%;
+        width: 0;
+        background-color: #ff6699;
+        transition: width 2s linear;
+      }
+      #click-me {
+        display: none;
+        font-size: 20px;
+        margin-top: 20px;
+        cursor: pointer;
+        color: #ff3366;
+        font-weight: bold;
+      }
+      .swiper {
+        width: 90%;
+        height: 60vh;
+        margin: auto;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+      .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 20px;
+      }
+      #content {
+        display: none;
+        text-align: center;
+        position: relative;
+        height: 100vh;
+      }
+      #envelope-container {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+      }
+      #envelope {
+        width: 150px;
+        height: 120px;
+        background: url("./img/envelope.png") no-repeat center/cover;
+        cursor: pointer;
+      }
+      #letter-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 320px;
+        padding: 20px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+      }
+      .letter-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      #imghoa {
+        width: 80px;
+        height: auto;
+        border-radius: 10px;
+      }
+      .right {
+        flex: 1;
+        text-align: left;
+      }
+      #close-btn {
+        margin-top: 10px;
+        cursor: pointer;
+        color: red;
+        font-weight: bold;
+      }
+      .heart {
+        position: fixed;
+        font-size: 30px;
+        color: #ff3366;
+        animation: floatUp 4s linear infinite;
+        z-index: 9999;
+      }
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) scale(0.5);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) scale(1.2);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="bg-music" loop>
+      <source src="./nhac/nhac.mp3" type="audio/mpeg" />
+    </audio>
+    <div id="loading-container">
+      <h2>Loading Love...</h2>
+      <div id="loading-bar">
+        <div id="progress"></div>
+      </div>
+      <div id="click-me" onclick="showContent()">Click Me! 💖</div>
+    </div>
+    <div id="content">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="./img/anhmom1.jpg" alt="" /></div>
+          <div class="swiper-slide"><img src="./img/anhmom2.jpg" alt="" /></div>
+          <div class="swiper-slide"><img src="./img/anhmom3.jpg" alt="" /></div>
+          <div class="swiper-slide"><img src="./img/anhmom4.jpg" alt="" /></div>
+        </div>
+      </div>
+      <div id="envelope-container">
+        <h3>Mẹ yêu ơi, hãy mở phong thư 💌</h3>
+        <img id="envelope" src="./img/bucthu.png" alt="" onclick="showLetter()" />
+      </div>
+    </div>
+    <div id="letter-popup">
+      <h2>Thư gửi mẹ 💖</h2>
+      <div class="letter-container">
+        <div id="left">
+          <img src="./img/anhnam.jpg" alt="Flower Image" id="imghoa" />
+        </div>
+        <div class="right">
+          <p id="letter-text"></p>
+        </div>
+      </div>
+      <div id="close-btn" onclick="closeLetter()">Đóng</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      function startLoading() {
+        let progress = document.getElementById("progress");
+        setTimeout(() => {
+          progress.style.width = "100%";
+          setTimeout(() => {
+            document.getElementById("click-me").style.display = "block";
+          }, 500);
+        }, 2000);
+      }
+      function showContent() {
+        document.getElementById("loading-container").style.display = "none";
+        document.getElementById("content").style.display = "block";
+        document.getElementById("bg-music").play().catch(console.error);
+        generateHearts();
+      }
+      function showLetter() {
+        document.getElementById("letter-popup").style.display = "block";
+        let text =
+          "Mẹ yêu ơi, con chúc mẹ một ngày 8/3 thật hạnh phúc! Mẹ là người phụ nữ tuyệt vời nhất trên đời, là bến đỗ bình yên nhất của con. Con yêu mẹ rất nhiều! ❤️🌹";
+        let i = 0;
+        let interval = setInterval(() => {
+          document.getElementById("letter-text").textContent += text[i];
+          i++;
+          if (i >= text.length) clearInterval(interval);
+        }, 50);
+      }
+      function closeLetter() {
+        document.getElementById("letter-popup").style.display = "none";
+      }
+      function generateHearts() {
+        setInterval(() => {
+          let heart = document.createElement("i");
+          heart.className = "fas fa-heart heart";
+          heart.style.left = Math.random() * window.innerWidth + "px";
+          heart.style.bottom = "-30px";
+          document.body.appendChild(heart);
+          setTimeout(() => {
+            heart.remove();
+          }, 4000);
+        }, 500);
+      }
+      window.onload = startLoading;
+      new Swiper(".mySwiper", {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: { delay: 2500, disableOnInteraction: false },
+      });
+    </script>
+  </body>
+</html>
