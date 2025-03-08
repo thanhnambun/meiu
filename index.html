@@ -64,15 +64,21 @@
         height: 100vh;
       }
       #envelope-container {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
+        margin-top: 20px;
       }
-      #envelope {
-        width: 150px;
-        height: 120px;
-        background: url("./img/envelope.png") no-repeat center/cover;
+      #open-letter-btn {
+        font-size: 18px;
+        padding: 10px 20px;
+        border: none;
+        background-color: #ff3366;
+        color: white;
         cursor: pointer;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+      #open-letter-btn:hover {
+        background-color: #d62e5a;
       }
       #letter-popup {
         display: none;
@@ -151,7 +157,7 @@
       </div>
       <div id="envelope-container">
         <h3>Mẹ yêu ơi, hãy mở phong thư 💌</h3>
-        <img id="envelope" src="./img/bucthu.png" alt="" onclick="showLetter()" />
+        <button id="open-letter-btn" onclick="showLetter()">Mở thư 💌</button>
       </div>
     </div>
     <div id="letter-popup">
@@ -185,6 +191,7 @@
       }
       function showLetter() {
         document.getElementById("letter-popup").style.display = "block";
+        document.getElementById("letter-text").textContent = ""; // Reset nội dung
         let text =
           "Mẹ yêu ơi, con chúc mẹ một ngày 8/3 thật hạnh phúc! Mẹ là người phụ nữ tuyệt vời nhất trên đời, là bến đỗ bình yên nhất của con. Con yêu mẹ rất nhiều! ❤️🌹";
         let i = 0;
@@ -196,18 +203,6 @@
       }
       function closeLetter() {
         document.getElementById("letter-popup").style.display = "none";
-      }
-      function generateHearts() {
-        setInterval(() => {
-          let heart = document.createElement("i");
-          heart.className = "fas fa-heart heart";
-          heart.style.left = Math.random() * window.innerWidth + "px";
-          heart.style.bottom = "-30px";
-          document.body.appendChild(heart);
-          setTimeout(() => {
-            heart.remove();
-          }, 4000);
-        }, 500);
       }
       window.onload = startLoading;
       new Swiper(".mySwiper", {
